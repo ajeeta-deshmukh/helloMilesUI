@@ -1,12 +1,14 @@
 "use strict";
 var React = require('react');
-
+var OptionBar =require("../common/optionBar");
 var employeeApiCall= require('../../api/employeeApi');
- var EmployeeList = require('./employeeList');
+var EmployeeList = require('./employeeList');
+var EmployeeListView = require('./employeeListView');
 var Employees = React.createClass({
      getInitialState: function() {
          return {
-             employee:[]  
+             employee:[],
+             layout:"EmployeeList"
          };
      },
 
@@ -15,19 +17,35 @@ var Employees = React.createClass({
            this.setState({employee:employeeApiCall.getAllEmployees()});
            };
      },
-
+     handleViewChange : function(event){
+     
+        if(event.target.value === "EmployeeListView"){
+          this.setState({layout: "EmployeeListView"});
+       }else{
+          this.setState({layout: "EmployeeList"});
+        }
+     },
+     
+  
 	render:function () {
-          
+        
+        
 		return (
+            <div>
+              <OptionBar layout={this.state.layout} onClick={this.handleViewChange}/>
                <div className="container">
                     <div className="col-sm-12">
                          <div className="col-sm-3">
-                              <h1>Employee  List</h1>
+                              <h1>Employees</h1>
                           </div>
                     </div>
                     <div className="col-sm-12">
-                      <EmployeeList  empList={this.state.employee} />
+                   { this.state.layout === "EmployeeList" ? <EmployeeList  empList={this.state.employee} /> : <EmployeeListView  empList={this.state.employee} /> }
+                      
+                  
                     </div>
+                  
+               </div>
                </div>
 			);
 	}

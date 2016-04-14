@@ -27,17 +27,14 @@ var SocialIcon = React.createClass({
 
                 };
                 var createSocialIconRow = function(userFeature) {
-                    return ( < div key = { userFeature.feature_Name } >
-                        < div className = "col-sm-2"
-                        title = { userFeature.feature_Name } >
-
-
-                        < i className = { userFeature.status === "A" ? setIcon(userFeature.feature_Name) + " greenColor" : setIcon(userFeature.feature_Name) + " grayColor" } >
-                        < /i> < /div >
-
-                        < /div>);
+                    return ( <div key={ userFeature.feature_Name }>
+                                <div className="col-sm-2" title={ userFeature.status==="A" ? userFeature.feature_Name + "  -  active " : userFeature.feature_Name + " -  inactive " }>
+                                    <i className={ userFeature.status==="A" ? setIcon(userFeature.feature_Name) + " greenColor" : setIcon(userFeature.feature_Name) + " grayColor" }>
+                                    </i>
+                                </div>
+                            </div>);
                     };
-                    return ( < div > { this.props.userFeature.map(createSocialIconRow, this) } < /div>);
+                    return ( <div> { this.props.userFeature.map(createSocialIconRow, this) } </div>);
                     }
                 });module.exports = SocialIcon;
 

@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-
+var CheckboxInput =require('./checkInput');
 var Input = React.createClass({
     
 	render:function () {

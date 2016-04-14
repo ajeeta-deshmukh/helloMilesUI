@@ -1,6 +1,8 @@
 "use strict";
 var React = require('react');
  var SocialAccount = require('../common/socialAccount');
+
+ 
 var EmployeeList = React.createClass({
     propTypes :{
       empList :React.PropTypes.array.isRequired
@@ -8,9 +10,9 @@ var EmployeeList = React.createClass({
      
 	render:function () {
           var createemployeeRow = function(employee){
-            console.log("UserFreature  : "+JSON.stringify(employee.userfeature));
+            
                return (
-                    <div className="col-sm-4" key={employee.id}>
+                    <div className="col-sm-12 col-md-4 col-xs-12" key={employee.user_Id}>
                          <div className="empBox col-sm-12">
 
                               <div className="empInfo col-sm-12"> <a href={"/#employee/"+employee.user_Id}>

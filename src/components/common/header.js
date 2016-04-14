@@ -1,7 +1,7 @@
 "use strict";
 var React = require('react');
 var Router = require('react-router');
-var OptionBar =require("./optionBar");
+
 var Link =Router.Link;
  
 var Header = React.createClass({
@@ -36,7 +36,7 @@ var Header = React.createClass({
 				</nav>
 			</div>
 			</div>
-			<OptionBar />
+			
 
 			</div>
 			);

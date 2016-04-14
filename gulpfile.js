@@ -19,7 +19,8 @@ var config = {
         dist: './dist',
         images: './src/images/*',
         css:['node_modules/bootstrap/dist/css/bootstrap.min.css',
-        	 'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+        	 'node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
+             'node_modules/toastr/build/toastr.min.css'
         	],
         stylesheet:'./src/css/main.css',
         mainJs: './src/main.js'
