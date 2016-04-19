@@ -14,7 +14,8 @@ var routes = (
 			<Route name="about" handler={require('./components/about/aboutPage')} />
 			<NotFoundRoute handler={require('./components/404')} />
 			<Route name="addEmployee" path="addEmployee" handler={require('./components/employees/addEmployee')} />
-			
+			<Route name="editEmployee" path="addEmployee/:id" handler={require('./components/employees/addEmployee')} />
+			<Route name="viewEmployee" path="viewEmployee/:id" handler={require('./components/employees/viewEmployee')} />
 
 		</Route>
 	);

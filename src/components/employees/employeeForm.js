@@ -1,112 +1,76 @@
 "use strict";
 var React = require('react');
+var Router = require('react-router');
 var LocationList = require('../common/locationList');
+var Link =Router.Link;
 var Input = require('../common/textInput');
 var Switch = require('../common/switch');
 var EmployeeForm = React.createClass({
-    getInitialState() {
-     
-        return {
-            
-             git: { feature_Name: 'GITHUB', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             slack: { feature_Name: 'SLACK', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             trello: { feature_Name: 'TRELLO', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             socialcast: { feature_Name: 'SOCIALCAST', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             wiki: { feature_Name: 'WIKI', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             dropbox: { feature_Name: 'DROPBOX', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' } 
-            
-        };  
-    },
-setUserFeatureData : function(){
-  this.props.employee.userfeature=[];
-  this.props.employee.userfeature.push(this.state.git);
-  this.props.employee.userfeature.push(this.state.dropbox);
-  this.props.employee.userfeature.push(this.state.slack);
-  this.props.employee.userfeature.push(this.state.socialcast);
-  this.props.employee.userfeature.push(this.state.trello);
-  this.props.employee.userfeature.push(this.state.wiki);
-   return this.props.employee.userfeature;     
+   
+locationHandler : function (event) {
+    alert("location name : "+document.getElementById('location_name').value);
+
+    console.log('event value = '+event.target.value);
 },
 
-setEmployeeUserFeature : function(event) {
-  if(this.state.git.feature_Name === event.target.name){
-      this.state.git.status = event.target.value;
-      this.setState({git : this.state.git});
-
-  }else if(this.state.slack.feature_Name === event.target.name){
-      this.state.slack.status = event.target.value;
-      this.setState({slack : this.state.slack});
-    
-  }else if(this.state.trello.feature_Name === event.target.name){
-      this.state.trello.status = event.target.value;
-      this.setState({trello : this.state.trello});
-    
-  }else if(this.state.socialcast.feature_Name === event.target.name){
-      this.state.socialcast.status = event.target.value;
-      this.setState({socialcast : this.state.socialcast});
-    
-  }else if(this.state.wiki.feature_Name === event.target.name){
-      this.state.wiki.status = event.target.value;
-      this.setState({wiki : this.state.wiki});
-    
-  }else if(this.state.dropbox.feature_Name === event.target.name){
-      this.state.dropbox.status = event.target.value;
-      this.setState({dropbox : this.state.dropbox});
-    
-  }
- 
-    return setUserFeatureData();
-  
-  
-    
-     
-}, 
 	render:function () {
-         var setData=this.setUserFeatureData();
+         
 		return (
               <div className="container">
-              <div className="col-sm-12"><h1>+ Add Employee</h1></div>
-               <div className="col-sm-offset-3 col-sm-3">
-                <div className="col-sm-12 addimg">
-                  <img src="./images/default.png" class="img-responsive" alt="" /></div>
+
+              <div className="col-sm-12 col-md-4 col-md-offset-4 textCenter"><h1>Add Employee</h1></div>
+
+               <div className="col-sm12 col-md-offset-3 col-md-3 well">
+                    <div className="col-sm-12 addimg well">
+                      <img src="./images/default.png" class="img-responsive" alt="" />
+                    </div>
                     <div className="col-sm-12">
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch onClick={this.props.updateSwitchStatus}
                                name="GITHUB"
-                               value={this.state.git.status} 
+                               checked ={this.props.git.status === "A" ? true : false}
+                               
+                               value={this.props.git.status} 
                                faClass="switch-handle fa fa-github"/>
 
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch checked ={this.props.slack.status === "A" ? true : false}
                                name="SLACK"
-                               value={this.state.slack.status} 
+                                onClick={this.props.updateSwitchStatus}
+                               value={this.props.slack.status} 
                                faClass="switch-handle fa fa-slack"/>
 
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch checked ={this.props.trello.status === "A" ? true : false}
                                name="TRELLO"
-                               value={this.state.trello.status} 
+                                onClick={this.props.updateSwitchStatus}
+                               value={this.props.trello.status} 
                                faClass="switch-handle fa fa-trello"/>
 
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch checked ={this.props.socialcast.status === "A" ? true : false}
                                name="SOCIALCAST"
-                               value={this.state.socialcast.status} 
+                               value={this.props.socialcast.status} 
+                                onClick={this.props.updateSwitchStatus}
                                faClass="switch-handle fa fa-socialcast"/>
 
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch checked ={this.props.wiki.status === "A" ? true : false}
                                name="WIKI"
-                               value={this.state.wiki.status} 
+                               value={this.props.wiki.status} 
+                                onClick={this.props.updateSwitchStatus}
                                faClass="switch-handle fa fa-wikipedia-w"/>
 
-                       <Switch onChange={this.setEmployeeUserFeature}
+                       <Switch checked ={this.props.dropbox.status === "A" ? true : false}
                                name="DROPBOX"
-                               value={this.state.dropbox.status} 
+                               value={this.props.dropbox.status}
+                                onClick={this.props.updateSwitchStatus} 
                                faClass="switch-handle fa fa-dropbox"/>
 
                          
                    </div>
                </div>
-         <div className="col-sm-3">
+         
                <form >
+                <div className="col-sm-3 well">
                 <div className="col-sm-12">
-                   <LocationList />
+                    <LocationList firstOption={ this.props.employee.location_name === null ? "Select Location": this.props.employee.location_name}  onChange={this.props.onChange} />
+                    
                 </div>
                <div className="col-sm-12">
                  <Input name="first_Name" 
@@ -163,11 +127,15 @@ setEmployeeUserFeature : function(event) {
                       </div>
                   </div>
               </div>
+               </div>
+               <div className="col-sm-12  textCenter">
               <input type="submit"  className="btn btn-primary" value="Add Employee" onClick={this.props.onSave}  />
+              <Link  className="btn btn-primary moveright" to="employee"> Cancel </Link>
+</div>
                </form>
 
                
-                </div>
+                
                 
                </div>
 			);

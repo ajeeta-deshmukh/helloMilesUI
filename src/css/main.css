@@ -5,6 +5,10 @@ body {
 
 .navbar-default .navbar-brand {
     color: #D22323;
+    font-size: 36px;
+    line-height: 48px;
+    font-family: inherit;
+    font-weight: bolder;
 }
 
 .logo {
@@ -15,6 +19,10 @@ body {
     height: 80px;
     width: 135px;
     margin-top: -18px;
+}
+
+.Loginbox {
+    padding: 20px
 }
 
 .toast-success {
@@ -73,7 +81,6 @@ body {
 }
 
 .empBox {
-    height: 200px;
     display: block;
 }
 
@@ -142,11 +149,6 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     box-shadow: 0px -6px 10px rgba(0, 0, 0, 0.34);*/
 }
 
-.right-btn {
-    display: inline-block;
-    float: right;
-}
-
 .empDetail {
     width: 60%;
     float: right;
@@ -159,7 +161,6 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
 
 .detailsBox {
     display: block;
-    height: 85px;
     background: white;
     border-radius: 8px;
     overflow: hidden;
@@ -201,6 +202,18 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     border-bottom: 1px solid rgba(0, 0, 0, .09);
 }
 
+.subtags {
+    color: gray;
+    display: inline;
+}
+
+.Detailstags {
+    color: black;
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: 600;
+}
+
 .empOption i {
     font-size: 16px;
     padding: 0px 3px;
@@ -224,7 +237,9 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
 .dropboxColor {
     /* color:#008BD3;*/
 }
-
+.textCenter{
+text-align: center;
+}
 
 /*switches    */
 
@@ -235,7 +250,7 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     width: 130px;
     height: 30px;
     padding: 3px;
-    margin: 0 10px 6px 35px;
+    margin: 6px 10px 6px 35px;;
     background: linear-gradient(to bottom, #dddddd, #FFFFFF 25px);
     background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
     border-radius: 18px;
@@ -358,42 +373,279 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     height: 100%;
 }
 
-.employeeCard .tbimageBox img {
+.CardBox img {
     width: 80px;
-    height: 100px;
-    background: white;
+    height: 80px;
 }
 
 .employeeCard .tbimageBox {
-        width: 80px;
-    margin: 0 3px 0 1px;
+    width: 30%;
     height: auto;
     float: left;
 }
 
 .employeeCard .empdetailsBox {
-        width: 98%;
-    height: 110px;
-    padding: 5px;
-    background: rgb(224, 221, 221);
-    margin: 5px;
-}
-
-.empInfobox {
-    position: absolute;
-    left: 118px;
+    width: 100%;
     float: right;
 }
 
-.empFirstName {
-    color: black;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 20px;
+.moveRight {
+    float: right;
+    width:123px;
 }
 
-.SocialIconBox {
-    width: 216px;
+.listViewDetails ul {
+    position: absolute;
+    margin: 0;
+    list-style: none;
+    padding: 0 5px;
+    top: 8px;
+}
+
+.listViewDetails li:nth-child(1) {
+    position: relative;
+    padding: 5px 1px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+
+.listViewDetails li {
+    position: relative;
+    padding: 0px 2px;
+    font-size: 16px;
+    color: #7B7B7B;
+}
+
+.employeeCard .list-group-item {
+    position: relative;
+    display: block;
+    padding: 0px 14px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.moveright {
+    margin-left: 20px;
+}
+
+
+/*Materialistic Design*/
+
+.right-btn {
+    display: inline-block;
+    position: fixed;
+    top: 20px;
+    right: 12%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #D22323;
     font-size: 20px;
-    padding: 5px;
+    color: white;
+    z-index: 10000;
+}
+
+.listViewDetails {
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+.TableImage {
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    padding: 6px 0;
+}
+
+.topLevel {
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    text-align: center;
+}
+
+ul.listBox ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+ul.listBox li:hover ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+ul.listBox {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+
+/*[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+@-webkit-keyframes flip {
+  0%{-webkit-transform:rotateY(0deg);
+  opacity:1;}
+  100%{-webkit-transform:rotateY(95deg);
+  opacity:0;}
+}
+
+@-moz-keyframes flip {
+  0%{-webkit-transform:rotateY(0deg);
+  opacity:1;}
+  100%{-webkit-transform:rotateY(95deg);
+  opacity:0;}
+}
+
+@-o-keyframes flip {
+  0%{-webkit-transform:rotateY(0deg);
+  opacity:1;}
+  100%{-webkit-transform:rotateY(95deg);
+  opacity:0;}
+}
+
+@keyframes flip {
+  0%{-webkit-transform:rotateY(0deg);
+  opacity:1;}
+  100%{-webkit-transform:rotateY(95deg);
+  opacity:0;}
+}
+*/
+
+h2 {
+    color: #555;
+    text-align: center;
+}
+
+.vertical_menu ul {
+    z-index: 10000000;
+    list-style: none;
+    -webkit-perspective: 100;
+    -moz-perspective: 1000;
+    -o-perspective: 1000;
+    perspective: 1000;
+}
+
+.vertical_menu li {
+    margin: 10px 0;
+    padding: 0;
+    /* height: 100%; */
+    /* width: 100%; */
+    border-radius: 50%;
+}
+
+.vertical_menu li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    font-size: 20px;
+    background: rgb(177, 17, 17);
+    color: #fff;
+    padding: 8px 6px;
+    line-height: 28px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.vertical_menu .menu {
+    opacity: 1;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+}
+
+.vertical_menu li span {
+    /*width: 0px; */
+    float: left;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.91); */
+    color: #fff;
+    margin: -42px 43px;
+    padding: 3px 8px;
+    font-size: 13px;
+    transform-origin: 0%;
+    opacity: 0;
+    -webkit-transform: rotateY(95deg);
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+    -webkit-animation: flip 2s;
+    -moz-animation: flip 2s;
+    -o-animation: flip 2s;
+    animation: flip 2s;
+    /* text-indent: -9px; */
+    text-shadow: 3px 1px 3px black, -3px -1px 10px black, 1px 3px 8px black;
+}
+
+.vertical_menu span[class='menu'] {
+    -webkit-animation: none;
+}
+
+.vertical_menu li:nth-child(2) span {
+    -webkit-animation-delay: .5s;
+    -moz-animation-delay: .5s;
+    -o-animation-delay: .5s;
+    animation-delay: .5s;
+}
+
+.vertical_menu li:nth-child(3) span {
+    -webkit-animation-delay: .4s;
+    -moz-animation-delay: .4s;
+    -o-animation-delay: .4s;
+    animation-delay: .4s;
+}
+
+.vertical_menu li:nth-child(4) span {
+    -webkit-animation-delay: .3s;
+    -moz-animation-delay: .3s;
+    -o-animation-delay: .3s;
+    animation-delay: .3s;
+}
+
+.vertical_menu li:nth-child(5) span {
+    -webkit-animation-delay: .2s;
+    -moz-animation-delay: .2s;
+    -o-animation-delay: .2s;
+    animation-delay: .2s;
+}
+
+.vertical_menu li:nth-child(6) span {
+    -webkit-animation-delay: .1s;
+    -moz-animation-delay: .1s;
+    -o-animation-delay: .1s;
+    animation-delay: .1s;
+}
+
+.vertical_menu li a:hover ~ span {
+    z-index: 99999999;
+    width: auto;
+    opacity: 1;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
 }

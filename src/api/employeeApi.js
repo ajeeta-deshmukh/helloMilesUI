@@ -2,7 +2,7 @@
 
 var employees = require('./employeeData').data;
 var _=require('lodash');
-
+var EmployeeById =  require('./employeeById');
 var _generateId = function(employee) {
     return employee.first_Name.toLowerCase() + "-" + employee.last_Name.toLowerCase();
 };
@@ -18,7 +18,9 @@ var EmployeeApi = {
     },
 
     getEmployeeById:function (id) {
-    	var employee=_.find(employees,{user_Id:id});
+      console.log('Employee Id : '+id);
+    	var employee=EmployeeById.fetch(id);
+      console.log('Employee Data By Id : '+employee.first_Name);
     	return _clone(employee);
     },
 
