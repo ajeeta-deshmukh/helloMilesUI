@@ -1,5 +1,8 @@
 "use strict";
 var employees = require('./employeeData').data;
+var SearchApiCall = require('./searchApi');
+var DeleteEmployeeAccount = require('./deleteAccount');
+var EmployeeById =  require('./employeeById');
 var _=require('lodash');
 
 var _generateId = function(employee) {
@@ -15,8 +18,15 @@ var EmployeeApi = {
       return _clone(employees);
 
     },
+
+    search :function(searchObject){
+        var searchResult = SearchApiCall.search(searchObject);
+        return _clone(searchResult);
+    },
     getEmployeeById:function (id) {
-      var employee=_.find(employees,{user_Id:id});
+      console.log('Employee Id : '+id);
+      var employee=EmployeeById.fetch(id);
+      console.log('Employee Data By Id : '+employee.first_Name);
       return _clone(employee);
     },
     updateAndFormatPhone: function(employee){

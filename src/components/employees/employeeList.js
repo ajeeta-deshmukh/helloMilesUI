@@ -28,7 +28,7 @@ var EmployeeList = React.createClass({
                                       </div>
                                     </div> 
                                    <div className="empDetail col-sm-8">
-                                        <div className="empName">{employee.first_Name} {employee.last_Name}</div>
+                                        <div className="empName">{employee.first_Name}</div>
                                        
                                     </div>    
                                    </a>

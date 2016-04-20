@@ -6,7 +6,7 @@ var EmployeeById = {
 	fetch : function(userId) {
     var result = "";
     $.ajax({
-        type:"POST",
+        
         url: "http://localhost:8080/hellomiles/getUserById/userId/"+userId,
         async: false,
         success: function(data) {

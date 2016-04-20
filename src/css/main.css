@@ -210,7 +210,7 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
 .Detailstags {
     color: black;
     font-size: 14px;
-    line-height: 15px;
+    line-height: 20px;
     font-weight: 600;
 }
 
@@ -237,9 +237,11 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
 .dropboxColor {
     /* color:#008BD3;*/
 }
-.textCenter{
-text-align: center;
+
+.textCenter {
+    text-align: center;
 }
+
 
 /*switches    */
 
@@ -250,7 +252,8 @@ text-align: center;
     width: 130px;
     height: 30px;
     padding: 3px;
-    margin: 6px 10px 6px 35px;;
+    margin: 6px 10px 6px 35px;
+    ;
     background: linear-gradient(to bottom, #dddddd, #FFFFFF 25px);
     background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
     border-radius: 18px;
@@ -391,7 +394,7 @@ text-align: center;
 
 .moveRight {
     float: right;
-    width:123px;
+    width: 123px;
 }
 
 .listViewDetails ul {
@@ -424,6 +427,7 @@ text-align: center;
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid #ddd;
+    overflow: hidden;
 }
 
 .moveright {
@@ -648,4 +652,8 @@ h2 {
     -moz-transition: .5s;
     -o-transition: .5s;
     transition: .5s;
+}
+
+.searchOptions input[type="radio"] {
+    visibility: hidden;
 }

@@ -6,36 +6,17 @@ var SearchBox=require('./search');
 var Link =Router.Link;
  var List=require("./list"); 
 var OptionBar = React.createClass({
-	getInitialState:function(){
-		return{
-			query:'',
-			filteredData: this.props.data
-		}
-	},
-doSearch:function(queryText){
-		console.log(queryText)
-		//get query result
-		var queryResult=[];
-		this.props.data.forEach(function(person){
-			if(person.name.toLowerCase().indexOf(queryText)!=-1)
-			queryResult.push(person);
-		});
-		
-		this.setState({
-			query:queryText,
-			filteredData: queryResult
-		})
-	},
+
 	render:function () {
 		return (
 			
 			<div className="optionBar">
 		        <div className="container">
 		        <div className="col-sm-3">
-		               <SearchBox query={this.state.query} doSearch={this.doSearch} />
+		               <SearchBox  onChange={this.props.search}  status={this.props.status}  statusValue={this.props.statusValue} currentSearchCategoryHanhler={this.props.currentSearchCategoryHanhler}  currentSearchCategory={this.props.currentSearchCategory}/>
 		            </div>
 		            <div className="col-sm-2">
-		                <LocationList  firstOption={"All"}/>
+		                <LocationList  firstOption={"All"} onChange={this.props.locationHandler}/>
 		            </div>
 		            <div className="col-sm-offset-5 col-sm-2">
 		                <div className="btn-group moveRight" >
