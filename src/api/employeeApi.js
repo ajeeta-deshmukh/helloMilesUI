@@ -259,7 +259,6 @@ var EmployeeApi = {
                   async: false,
                   success: function(userId) {
                     //markProgressElementSuccess("Google");
-                    //userId="402880a55429375b015429599cf10000";
                       $.each(featureWatch, function(key,value){
                          switch(key){
                           case 'socialcast' : {
@@ -280,7 +279,7 @@ var EmployeeApi = {
                                           },
                                           error: function(err){
                                               message.socialcast = err;
-                                              //markProgressElementSuccess(key);
+                                              //markProgressElementError(key);
                                               featureWatch.socialcast = true;
                                              // watch();
                                           }
@@ -865,19 +864,17 @@ var EmployeeApi = {
     },
 
     saveEmployee:function (employee) {
-        console.log('Mock for Athor Save into db via Ajax Call');
         console.log('Employee : '+ JSON.stringify(employee));
-        
         this.addEmpDetails(employee);
 
-        if (employee.user_Id) {
+        /*if (employee.user_Id) {
           var existingEmployeeIndex= _.indexOf(employee,_.find(employees,{user_Id:employee.user_Id}));
           employee.split(existingEmployeeIndex,1,employee);
         } else {
           employee.user_Id= _generateId(employee);
           employees.push(employee);
         }
-        return _clone(employee);
+        return _clone(employee);*/
     },
 
     deleteEmployee:function (id) {
