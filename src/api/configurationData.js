@@ -5,10 +5,7 @@ module.exports.save = function(row,propertyName,mode) {
     	userProfile.email="system";
 		requestData.fields = row;
 		requestData.userProfile = userProfile;
-		console.log("data before stringify : "+requestData);
 		var data=JSON.stringify(requestData);
-		// data = $.param(requestData);
-		console.log("data after stringify : "+data);
 	    var url = "http://localhost:8080/hellomiles/modifySelectedSystemConfiguration/propertyname/"+propertyName+"/"+mode;
 	    $.ajax({
 		      url: url,
@@ -23,3 +20,18 @@ module.exports.save = function(row,propertyName,mode) {
 		      }
 		});
 }
+
+module.exports.getSelectedSystemConfiguration = function(propertyName,fields) {
+	var result;
+	    var url = "http://localhost:8080/hellomiles/getSelectedSystemConfiguration/propertyname/"+propertyName+"/fields/"+fields;
+	    $.ajax({
+		      url: url,
+		      method : 'GET',
+		      async: false,
+		      success: function(data) {
+		        result = data.data;
+		      }
+		});
+		return result;
+}
+

@@ -19,10 +19,10 @@ var Menu = React.createClass({
 	                                <Link to="addEmployee" className="fa fa-user-plus"></Link> <span >Add Employee</span>
 	                            </li>
 	                             <li>
-	                                <Link to="manageConfiguration" className="fa fa-cogs"></Link> <span>Manage Configuration</span>
+	                                <Link to="updateLocation" className="fa fa-cogs"></Link> <span>Manage Configuration</span>
 	                            </li>
 	                            <li>
-	                                <Link to="addEmployee" className="fa fa-spin fa-cog margin-bottom"></Link> <span>System Configuration</span>
+	                                <Link to="updateSystemParam" className="fa fa-spin fa-cog margin-bottom"></Link> <span>System Param</span>
 	                            </li>
                             
                         </ul>

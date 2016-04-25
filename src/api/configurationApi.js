@@ -10,6 +10,9 @@ var _clone = function(item) {
 
 
 var ConfigurationApi = {
+	getSelectedSystemConfiguration:function (propertyName,fields) {
+       return Configuration.getSelectedSystemConfiguration(propertyName,fields);
+    },
     saveConfiguration:function (row,propertyName,mode) {
         Configuration.save(row,propertyName,mode);
     },

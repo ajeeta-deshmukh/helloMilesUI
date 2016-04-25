@@ -1,7 +1,6 @@
 "use strict";
 var React = require('react');
 var Router = require('react-router');
-var LocationApi = require('../../api/LocationApi');
 var ConfigurationApi = require('../../api/configurationApi');
 var ReactBSTable = require('react-bootstrap-table');  
 var BootstrapTable = ReactBSTable.BootstrapTable;
@@ -17,13 +16,12 @@ var ManageConfiguration = React.createClass({
 	},
 
 	componentDidMount: function() {
+		var fields = "LOCATION_NAME,DESCRIPTION,MAIL_DOMAIN,LANGUAGE,COUNTRY_PHONE_CODE,PHONE_NUMBER_LENGTH";
+		var propertyName = "location_set";
       if (this.isMounted()) {
-           this.setState({LocationList : LocationApi.getAllLocation()});
+           this.setState({LocationList : ConfigurationApi.getSelectedSystemConfiguration(propertyName,fields)});
            };
            
-     },
-     abc : function(){
-     	console.log("hi agastya...");
      },
      cellEditProp : {
 		  mode: "dbclick",
@@ -45,12 +43,9 @@ var ManageConfiguration = React.createClass({
 
 	 optionsProp : {
 			afterInsertRow :  function(row){
-			ConfigurationApi.saveConfiguration(row,"location_set","ADD");
+				ConfigurationApi.saveConfiguration(row,"location_set","ADD");
 			},
-			afterDeleteRow :  function(rowKey,row){
-				
-				//var location = $.grep(selectedRow,function(loc){return loc.location_NAME == rowKey;})[0];
-				console.log('location  :  '+JSON.stringify(selectedRow));
+			afterDeleteRow :  function(rowKey){
 				ConfigurationApi.saveConfiguration(selectedRow,"location_set","DELETE");
 			}
 		},

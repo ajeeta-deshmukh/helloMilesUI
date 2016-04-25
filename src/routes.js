@@ -17,7 +17,8 @@ var routes = (
 			<Route name="editEmployee" path="addEmployee/:id" handler={require('./components/employees/addEmployee')} />
 			<Route name="viewEmployee" path="viewEmployee/:id" handler={require('./components/employees/viewEmployee')} />
 			<Route name="deleteAccount" path="deleteAccount/:id" handler={require('./components/employees/deleteEmployee')} />
-			<Route name="manageConfiguration" path="manageConfiguration" handler={require('./components/configuration/manageconfiguration')} />
+			<Route name="updateLocation" path="updateLocation" handler={require('./components/configuration/updateLocation')} />
+			<Route name="updateSystemParam" path="updateSystemParam" handler={require('./components/configuration/updateSystemParam')} />
 
 		</Route>
 	);
