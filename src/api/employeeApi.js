@@ -3,6 +3,7 @@ var employees = require('./employeeData').data;
 var SearchApiCall = require('./searchApi');
 var DeleteEmployeeAccount = require('./deleteAccount');
 var EmployeeById =  require('./employeeById');
+var Toastr=require('toastr');
 var _=require('lodash');
 
 var _generateId = function(employee) {
@@ -876,6 +877,629 @@ sort : function  (employees,field, reverse, primer) {
         this.addEmpDetails(employee);
 
         return this.getAllEmployees();
+    },
+    deactivateEmployee:function (employee) {
+        var userId = employee.user_Id;
+        var milesEmail = employee.email_address;
+           var mode = "Disable";
+             var featureWatch = {
+                    socialcast : false,
+                    slack : false,
+                    trello : false,
+                    gitHub : false,
+                    dropBox : false,
+                    wiki : false
+                };
+               var message = {
+                    socialcast : "",
+                    slack : "",
+                    trello : "",
+                    github : "",
+                    dropbox : "",
+                    wiki : ""
+                };
+              var featureSet = {
+                socialcast : false,
+                slack : false,
+                trello : false,
+                gitHub : false,
+                dropBox : false,
+                wiki : false
+              };
+
+              //Gets featureset based on Id
+                function getFeatureSetForUser(userId){
+                  featureState = {
+                            socialcast : false,
+                            slack : false,
+                            trello : false,
+                            gitHub : false,
+                            dropBox : false,
+                            wiki : false
+                          };
+                $.ajax({
+                      url: 'http://localhost:8080/hellomiles/getUserFeatureById/userId/'+ userId,
+                      method :'GET',
+                      async: false,
+                      success: function(data) {
+                          if(data.length > 0){
+                          $.each(data, function(key,item){
+                            switch(item.feature_Name.toLowerCase()){
+                                case 'socialcast' : {
+                                  if(item.status == "A")
+                                    featureState.socialcast = true;
+                                  break;
+                                }
+                                case 'slack' : {
+                                  if(item.status == "A")
+                                    featureState.slack = true;
+                                  break;
+                                }
+                                case 'trello' :  {
+                                  if(item.status == "A")
+                                    featureState.trello = true;
+                                  break;
+                                }
+                                case 'github' : {
+                                  if(item.status == "A")
+                                    featureState.gitHub = true;
+                                  break;
+
+                                }
+                                case 'dropbox' : {
+                                  if(item.status == "A")
+                                    featureState.dropBox = true;
+                                  break;
+                                }
+                                case 'wiki' : {
+                                  if(item.status == "A")
+                                    featureState.wiki = true;
+                                  break;
+                                }
+                            }
+                          });
+                        }  
+                      }
+                  });
+                return  featureState;
+                }
+                
+            featureState = getFeatureSetForUser(userId);
+
+              $.each(featureSet, function(key,value){
+                               switch(key){
+                                case 'socialcast' : {
+                                  var url = "http://localhost:8080/hellomiles/";
+                                  if(mode == "ADD"){
+                                      if(featureSet.socialcast){
+                                          //Call API to createUser
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addSocialcastAccount/primaryEmail/" + milesEmail + "/firstName/" + givenName + "/lastName/" + familyName + "/userName/" + milesEmail.split("@")[0] + "/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.socialcast = "User Activated in Socialcast";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.socialcast = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.socialcast = err;
+                                                    //markProgressElementError(key);
+                                                    featureWatch.socialcast = true;
+                                                   // watch();
+                                                }
+                                            });
+                                        }else{
+                                          message.socialcast = "";
+                                          featureWatch.socialcast = true;
+                                         // watch();
+                                        }
+                                  }else if(featureSet.socialcast != featureState.socialcast){
+                                    if(featureSet.socialcast){
+                                          //Call API to createUser
+                                           // addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addSocialcastAccount/primaryEmail/" + milesEmail + "/firstName/" + givenName + "/lastName/" + familyName + "/userName/" + milesEmail.split("@")[0] + "/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                async: false,
+                                                success: function(data) {
+                                                    message.socialcast = "User Activated in Socialcast";
+                                                   // markProgressElementSuccess(key);
+                                                    featureWatch.socialcast = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.socialcast = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.socialcast = true;
+                                                    //watch();
+                                                }
+                                            });
+                                          
+                                        }else{
+                                          //addProgressElementToParent(featurePopupContainer,key);
+                                          url = url + "removeSocialcastAccount/user_Id/" + userId;
+                                          $.ajax({
+                                                url: url,
+                                                async: false,
+                                                method :'POST',
+                                                success: function(data) {
+                                                    message.socialcast = "User Removed from Socialcast";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.socialcast = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.socialcast = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.socialcast = true;
+                                                    //watch();
+                                                }
+                                            });
+                                        }
+
+                                  }else{
+                                    message.socialcast = "";
+                                    featureWatch.socialcast = true;
+                                    //watch();
+                                  }
+                                  break;
+                                }
+                                case 'slack' : {
+                                        var url = "http://localhost:8080/hellomiles/";
+                                        if(mode == "Add"){
+                                          if(featureSet.slack){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addSlackUser/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.slack = "User Activated in slack";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.slack = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.slack = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.slack = true;
+                                                   // watch();
+                                                }
+                                            });
+                                          }else{
+                                            message.slack = "";
+                                            featureWatch.slack = true;
+                                            //watch();
+                                          }
+                                          
+                                        }else if(featureSet.slack != featureState.slack){
+                                          if(featureSet.slack){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addSlackUser/user_Id/" + userId;
+                                            $.ajax({
+                                                          url: url,
+                                                          method :'POST',
+                                                          success: function(data) {
+                                                             message.slack = "User Activated in slack";
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.slack = true;
+                                                              //watch();
+                                                          },
+                                                          error: function(err){
+                                                              message.slack = err;
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.slack = true;
+                                                             // watch();
+                                                          }
+                                                      });
+                                            
+                                            
+                                          }else{
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "removeSlackUser/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.slack = "User Removed from slack";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.slack = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.slack = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.slack = true;
+                                                   // watch();
+                                                }
+                                            });
+                                            
+                                          }
+                                        }else{
+                                          featureWatch.slack = true;
+                                          message.slack = "";
+                                          //watch();
+                                        }
+                                        break;
+                                    }
+                                    case 'trello' : {
+                                        var url = "http://localhost:8080/hellomiles/";
+                                        if(mode == "Add"){
+                                          if(featureSet.trello){
+                                            
+                                          var fullName = givenName + " " + familyName;
+                                          
+                                          if(isDiacritics(fullName)){
+                                            fullName = removeDiacritics(fullName);
+                                          }
+                                          //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addTrelloAccount/primaryEmail/" + milesEmail + "/name/" + fullName + "/user_Id/" + userId;
+                                            $.ajax({
+                                                          url: url,
+                                                          method :'POST',
+                                                          success: function(data) {
+                                                             message.trello = "User Activated in trello";
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                              //watch();
+                                                          },
+                                                          error: function(err){
+                                                              message.trello = err;
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                             // watch();
+                                                          }
+                                                        });
+                                          }else{
+                                            message.trello = "";
+                                            featureWatch.trello = true;
+                                            //watch();
+                                          }
+                                        }
+                                        else if(featureSet.trello != featureState.trello){
+                                          //Call API to Add trello account
+                                          
+                                          if(featureSet.trello){
+                                          var fullName = givenName + " " + familyName;
+                                          
+                                          if(isDiacritics(fullName)){
+                                            fullName = removeDiacritics(fullName);
+                                          }
+                                          //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addTrelloAccount/primaryEmail/" + milesEmail + "/name/" + fullName + "/user_Id/" + userId;
+                                            $.ajax({
+                                                          url: url,
+                                                          method :'POST',
+                                                          success: function(data) {
+                                                             message.trello = "User Activated in trello";
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                              //watch();
+                                                          },
+                                                          error: function(err){
+                                                              message.trello = err;
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                             // watch();
+                                                          }
+                                                        });
+                                          }
+                                          else{
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "removeTrelloAccount/user_Id/" + userId;
+                                              
+                                            $.ajax({
+                                                          url: url,
+                                                          method :'POST',
+                                                          success: function(data) {
+                                                             message.trello = "User Removed from trello";
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                              //watch();
+                                                          },
+                                                          error: function(err){
+                                                              message.trello = err;
+                                                              //markProgressElementSuccess(key);
+                                                              featureWatch.trello = true;
+                                                             // watch();
+                                                          }
+                                                        });
+                                          }
+                                        }
+                                        else{
+                                          message.trello = "";
+                                          featureWatch.trello = true;
+                                          //watch();
+                                        }
+                                        break;
+                                    
+                                    }
+                                    case 'gitHub' : {
+                                        var url = "http://localhost:8080/hellomiles/";
+                                        if(mode == "Add"){
+                                          if(featureSet.gitHub){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addGitUser/username/" + gitUserName + "/user_Id/" + userId;
+                                            $.ajax({
+                                              url: url,
+                                              method :'POST',
+                                              success: function(data) {
+                                                 message.gitHub = "User Activated in gitHub";
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                  //watch();
+                                              },
+                                              error: function(err){
+                                                  message.gitHub = err;
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                 // watch();
+                                              }
+                                            });
+                                          }else{
+                                            message.github = "";
+                                            featureWatch.gitHub = true;
+                                            //watch();
+                                          }
+                                        }else if(featureSet.gitHub != featureState.gitHub){
+                                          if(featureSet.gitHub){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addGitUser/username/" + gitUserName + "/user_Id/" + userId;
+                                            $.ajax({
+                                              url: url,
+                                              method :'POST',
+                                              success: function(data) {
+                                                 message.gitHub = "User Activated in gitHub";
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                  //watch();
+                                              },
+                                              error: function(err){
+                                                  message.gitHub = err;
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                 // watch();
+                                              }
+                                            });  
+                                          }else{
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "removeGitUser/user_Id/" + userId;
+                                            $.ajax({
+                                              url: url,
+                                              method :'POST',
+                                              success: function(data) {
+                                                 message.gitHub = "User Removed from gitHub";
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                  //watch();
+                                              },
+                                              error: function(err){
+                                                  message.gitHub = err;
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.gitHub = true;
+                                                 // watch();
+                                              }
+                                            });
+                                            
+                                          }
+                                        }else{
+                                          featureWatch.gitHub = true;
+                                          message.github = "";
+                                          //watch();
+                                        }
+                                        break;
+                                    }
+                                    case 'dropBox' : {
+                                        var url = "http://localhost:8080/hellomiles/";
+                                        if(mode == "Add"){
+                                          if(featureSet.dropBox){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addDropboxAccount/primaryEmail/" + milesEmail + "/givenName/" + givenName + "/familyName/" + familyName + "/user_Id/" + userId;
+                                            //Call API to createUser
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.dropBox = "User Activated in dropBox";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.dropBox = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                   // watch();
+                                                }
+                                            });
+                                          }else{
+                                            message.dropbox = "";
+                                            featureWatch.dropBox = true;
+                                            //watch();
+                                          }
+                                        }
+                                        else if(featureSet.dropBox != featureState.dropBox){
+                                          if(featureSet.dropBox){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addDropboxAccount/primaryEmail/" + milesEmail + "/givenName/" + givenName + "/familyName/" + familyName + "/user_Id/" + userId;
+                                            //Call API to createUser
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.dropBox = "User Activated in dropBox";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.dropBox = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                   // watch();
+                                                }
+                                            });
+                                            
+                                          }else{
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "removeDropboxAccount/primaryEmail/" + milesEmail + "/user_Id/" + userId;
+                                            //Call API to deleteUser
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.dropBox = "User Removed from dropBox";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.dropBox = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.dropBox = true;
+                                                   // watch();
+                                                }
+                                            });
+                                          }
+                                        }
+                                        else{
+                                          message.dropbox = "";
+                                          featureWatch.dropBox = true;
+                                          //watch();
+                                        }
+                                        break;
+                                    
+                                    }
+                                    case 'wiki' : {
+                                        var url = "http://localhost:8080/hellomiles/";
+                                        if(mode == "Add"){
+                                          if(featureSet.wiki){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addWikiUser/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.wiki = "User Activated in wiki";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.wiki = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.wiki = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.wiki = true;
+                                                   // watch();
+                                                }
+                                            });
+                                          }else{
+                                            message.wiki = "";
+                                            featureWatch.wiki = true;
+                                            //watch();
+                                          }
+                                          
+                                        }else if(featureSet.wiki != featureState.wiki){
+                                          if(featureSet.wiki){
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "addWikiUser/user_Id/" + userId;
+                                            $.ajax({
+                                                url: url,
+                                                method :'POST',
+                                                success: function(data) {
+                                                   message.wiki = "User Activated in wiki";
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.wiki = true;
+                                                    //watch();
+                                                },
+                                                error: function(err){
+                                                    message.wiki = err;
+                                                    //markProgressElementSuccess(key);
+                                                    featureWatch.wiki = true;
+                                                   // watch();
+                                                }
+                                            });
+                                             
+                                          }else{
+                                            //addProgressElementToParent(featurePopupContainer,key);
+                                            url = url + "removeWikiUser/user_Id/" + userId;
+                                            $.ajax({
+                                              url: url,
+                                              method :'POST',
+                                              success: function(data) {
+                                                 message.wiki = "User Removed from wiki";
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.wiki = true;
+                                                  //watch();
+                                              },
+                                              error: function(err){
+                                                  message.wiki = err;
+                                                  //markProgressElementSuccess(key);
+                                                  featureWatch.wiki = true;
+                                                 // watch();
+                                              }
+                                            });
+                                            
+                                          }
+                                        }else{
+                                          featureWatch.wiki = true;
+                                          message.wiki = "";
+                                          //watch();
+                                        }
+                                        break;
+                                    
+                                    }
+                               }
+                            });
+            if($scope.featureWatch.socialcast && $scope.featureWatch.slack && $scope.featureWatch.trello &&
+              $scope.featureWatch.gitHub && $scope.featureWatch.dropBox && $scope.featureWatch.wiki){
+
+              featureWatch = {
+                      socialcast : false,
+                      slack : false,
+                      trello : false,
+                      gitHub : false,
+                      dropBox : false,
+                      wiki : false
+                    };
+                    var messageStr = "";
+                    $.each(message, function(key,value){
+                      messageStr += (value != "" ? value + "<br>" : "");
+                    });
+                    
+                    $.ajax({
+                        url: 'http://localhost:8080/hellomiles/disableAccount/userid/' +userId+"/servicesSummary/"+JSON.stringify(message),
+                        method :'POST',
+                        success: function(data) {
+                          //markProgressElementSuccess("Google");
+                messageStr+="<br>"+data;
+                if (messageStr.toLowerCase().indexOf("error")===-1){
+                  Toastr.success("Employee Details added successfully. Services activatation summary : " + "\n" + messageStr);
+                  //hideProgressScreen($location,1);
+                }else{
+                  Toastr.error("Services activatation summary : " + "\n" + messageStr);
+                  //hideProgressScreen($location,0);
+                }
+                        },
+                        error: function(err){
+                           if(err==""){
+                  err="Google Error- Could not Disable Account";
+                 }
+                 messageStr+="<br>"+err;
+                 Toastr.error(messageStr);
+                 //markProgressElementError("Google");
+                 //hideProgressScreen($location,0);
+                        }
+                    });
+
+
+
+            }
+          return this.getAllEmployees();
+
     },
 
     deleteEmployee:function (id) {

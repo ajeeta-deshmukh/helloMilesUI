@@ -69,7 +69,9 @@ body {
 .viewEmployeeDetailspage .panel {
     border: none;
 }
-
+.confirmDialog .well button{
+    margin: auto 5px;
+}
 .viewEmployeeDetailspage table td:nth-child(3n-2) {
     color: rgba(0, 0, 0, .5);
 }
