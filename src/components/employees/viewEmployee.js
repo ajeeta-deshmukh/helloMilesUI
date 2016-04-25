@@ -1,6 +1,7 @@
 "use strict";
 var React = require('react');
  var SocialAccount = require('../common/socialAccount');
+  var Features = require('../common/viewFeature');
 var Router = require('react-router');
  var employeeApiCall= require('../../api/employeeApi');
 
@@ -10,9 +11,7 @@ var ViewEmployee = React.createClass({
         Router.Navigation
     ],
 
-    propTypes :{
-      empList :React.PropTypes.array.isRequired
-    },
+   
 getInitialState : function () {
     return {
           employee: []
@@ -24,95 +23,114 @@ getInitialState : function () {
     },
      
 	render:function () {
-
+ var dateFromTimeStamp = function (timestamp){
+                var theDate = new Date( timestamp );
+               
+                return theDate.toGMTString();
+            };
          
 		return (
-      <div className="container">
-              
-                 <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div className="panel panel-default">
-    <div className="panel-heading" role="tab" id="headingOne">
-      <h4 className="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-         Employee Details
-        </a>
-      </h4>
+      <div className="container viewEmployeeDetailspage">
+
+<div className="well">
+
+  <h1>  {this.state.employee.first_Name} 
+                       <i className="Fright">
+                          <Link className="fa fa-pencil-square-o btn btn-success" title="Edit" to={"editEmployee"} params={{id:this.state.employee.user_Id}}> Edit</Link>
+                          <Link className="fa fa-times  btn btn-danger" title="Delete" to={"deleteAccount"} params={{id:this.state.employee.user_Id}}> Delete</Link>
+                       </i>                
+  </h1>
+
+
+        <div className="row">
+            <div className="col-sm-12 col-md-3">
+                <img src={this.state.employee.image !=null ? this.state.employee.image : "../images/default.png"} className="img-risponsive" />
+                
+            </div>
+            <div className="col-sm-12 col-md-9">
+                <ul className="nav nav-tabs">
+                    <li className="active"><a data-toggle="tab" href="#details">Employee Details</a></li>
+                    <li><a data-toggle="tab" href="#features">Features</a></li>
+                    
+
+                </ul>
+                <div className="tab-content " >
+                    <div id="details" className="tab-pane fade in active">
+                    <div className="col-sm-12 whiteColor">
+                    <div className="col-md-8 col-sm-12">
+                      <table className="table ">
+                                                
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Name</td>
+                                                    <td> : {this.state.employee.first_Name}</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Email Address</td>
+                                                     <td> : { this.state.employee.email_address }</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Personal Email</td>
+                                                    <td> : { this.state.employee.personal_Email }</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td> Date Of Birth</td>
+                                                    <td> : { this.state.employee.date_of_Birth == null ? "NA" : this.state.employee.date_of_Birth}</td>
+                                                  </tr>
+                                                  
+                                                  <tr>
+                                                    <td> Primary Phone Number</td>
+                                                    <td> : { this.state.employee.primary_phone_number }</td>
+                                                  </tr>
+
+                                                  <tr>
+                                                    <td>Date of Joining</td>
+                                                    <td> : { dateFromTimeStamp(this.state.employee.date_of_Joining) }</td>
+                                                  </tr>
+
+                                                  <tr>
+                                                    <td>Location</td>
+                                                    <td> : { this.state.employee.location_name }</td>
+                                                  </tr>
+
+                                                  <tr>
+                                                    <td>Created On</td>
+                                                    <td> : { this.state.employee.created_on }</td>
+                                                  </tr>
+
+                                                </tbody>
+                                              </table>
+
+
+                               </div>             </div>
+                    </div>
+                    <div id="features" className="tab-pane fade">
+
+                        <Features userFeature={this.state.employee.userfeature ? this.state.employee.userfeature:[] }  />
+                    </div>
+                </div>
+
+            <Link to="employee" className="fa fa-long-arrow-left btn btn-primary">  Back to Employee</Link> 
+            </div>
+
+        </div>
+        </div>
     </div>
-    <div id="collapseOne" className="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div className="panel-body">
-       <div ><img src={this.state.employee.image != null ? this.state.employee.image :"../images/default.png"} className="img-risponsive" /></div>
-       <div className="subtags">{this.state.employee.first_Name} {this.state.employee.last_Name}</div>
-        <div ><div className="subtags">Location:</div> {this.state.employee.location_name}</div>
-        <div ><div className="subtags">Contact:</div> {this.state.employee.primary_phone_number != null ? this.state.employee.primary_phone_number : "NA" }</div>
-       <div></div>
-      </div>
-    </div>
-  </div>
-  <div className="panel panel-default">
-    <div className="panel-heading" role="tab" id="headingTwo">
-      <h4 className="panel-title">
-        <a className="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-         User Features :
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" className="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div className="panel-body">
-
-                                    <div className="socialIcon">
-                                         <SocialAccount userFeature={this.state.employee.userfeature ? this.state.employee.userfeature:[] } />
-                                    </div>  
-
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-<Link to="employee" className="btn btn-primary">Back to Employee</Link>
-</div>
-
-
-               
-			);
+    );
 	}
 });
 module.exports = ViewEmployee;
 
- // <div className="empemail">{employee.email_address}</div>
+/*
+<tr>
+                                                    <td>Created By</td>
+                                                    <td> : { this.state.employee.created_by }</td>
+                                                  </tr>
 
- /*
-<div className="col-sm-12 col-md-4 col-xs-12" key={this.state.employee.user_Id}>
-                         <div className="empBox col-sm-12">
+                                                  <tr>
+                                                    <td>Address</td>
+                                                    <td> : { this.state.employee.address }</td>
+                                                  </tr>
+*/
 
-                              <div className="empInfo col-sm-12"> <a href={"/#employee"}>
-                                   <div className="empImage col-sm-4">
-                                      <div className="imageBox">
-                                        <img src={this.state.employee.image != null ? this.state.employee.image :"../images/default.png"} className="img-risponsive" />
-                                      </div>
-                                    </div> 
-                                   <div className="empDetail col-sm-8">
-                                        <div className="empName">{this.state.employee.first_Name} {this.state.employee.last_Name}</div>
-                                       
-                                    </div>    
-                                   </a>
-                              </div>
-                              <div className="detailsBox  col-sm-12">
-                                    <div className="empOption">
-                                       
-                                       <Link className="fa fa-eye btn btn-info" title="View" to={"viewEmployee"} params={{id:this.state.employee.user_Id}}></Link>
-                                        <Link className="fa fa-pencil-square-o btn btn-success" title="Edit"to={"viewEmployee"} params={{id:this.state.employee.user_Id}}></Link>
-                                        <Link className="fa fa-times  btn btn-danger" title="Delete" to={"viewEmployee"} params={{id:this.state.employee.user_Id}}></Link>
-                                    </div> 
-                                    <div className="col-sm-12 Detailstags">
-                                      <div ><div className="subtags">Email:</div> {this.state.employee.email_address}</div>
-                                      <div ><div className="subtags">Contact:</div> {this.state.employee.primary_phone_number != null ? this.state.employee.primary_phone_number : "NA" }</div>
-                                      <div ><div className="subtags">Location:</div> {this.state.employee.location_name}</div>
-                                     </div> 
-                                    <div className="socialIcon">
-                                         <SocialAccount userFeature={this.state.employee.userfeature ? this.state.employee.userfeature:[] } />
-                                    </div>  
-                               </div> 
-                         </div>
-                    </div>
- */
+ 

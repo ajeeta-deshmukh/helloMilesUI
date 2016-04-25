@@ -4,9 +4,10 @@ var Router = require('react-router');
 var EmployeeApiCall = require('../../api/employeeApi');
 var EmployeeForm = require("./employeeForm");
 var Toastr=require('toastr');
-var employeeApiCall= require('../../api/employeeApi');
-var EmployeeInfo = React.createClass({
+var Validate  = require("../common/validation.js"); 
+var Location =require("../../api/LocationApi");
 
+var EmployeeInfo = React.createClass({
     mixins:[
         Router.Navigation
     ],
@@ -14,16 +15,19 @@ var EmployeeInfo = React.createClass({
     getInitialState: function() {
          return {
 
-            employee:   this.props.params.id == null  ? { user_Id: '',location_name:'', first_Name: '', last_Name: '', email_address: '', primary_phone_number: '', personal_Email: '', email_Alias: '', userfeature: [] } : employeeApiCall.getEmployeeById(this.props.params.id),
+            employee:   this.props.params.id == null  ? { user_Id: '',location_name:'', first_Name: '', last_Name: '', email_address: '', primary_phone_number: '', personal_Email: '', email_Alias: '', userfeature: [],welcome_email:'' } : EmployeeApiCall.getEmployeeById(this.props.params.id),
                 errors:{},
                 git: { feature_Name: 'GITHUB', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             slack: { feature_Name: 'SLACK', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             trello: { feature_Name: 'TRELLO', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             socialcast: { feature_Name: 'SOCIALCAST', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             wiki: { feature_Name: 'WIKI', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
-             dropbox: { feature_Name: 'DROPBOX', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' }, 
+               slack: { feature_Name: 'SLACK', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
+               trello: { feature_Name: 'TRELLO', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
+               socialcast: { feature_Name: 'SOCIALCAST', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
+               wiki: { feature_Name: 'WIKI', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' },
+               dropbox: { feature_Name: 'DROPBOX', status: "D", subscribed_On: ''+(new Date()).getTime(), subscribed_By: '', system_Identifier: '', additional_Info: '' }, 
+              welcome_email:null,
               checked: false  ,
-              status:"D" 
+              status:"D",
+              locationData : [],
+              countryCode: "+91"
             };
     },
     
@@ -193,56 +197,118 @@ setFeatureState : function (features){
 }
 return this.setUserFeatureData();
 },
-getFeatureState : function (featureName){
-   console.log('In getFeatureState');
- return  this.state.employee.userfeature.map(this.setFeatureState, this) 
 
-            
-},
 componentWillMount: function() {
-  console.log('In componentWillMount');
-   this.getFeatureState("GITHUB");
-  this.getFeatureState("SLACK");
-  this.getFeatureState("TRELLO");
-  this.getFeatureState("SOCIALCAST");
-  this.getFeatureState("WIKI");
-  this.getFeatureState("DROPBOX");
+   this.state.employee.userfeature.map(this.setFeatureState, this);
+if(this.props.params.id != null){
+   
+   this.state.countryCode = this.setLocationForEdit(this.state.employee.location_name); 
+}
+    
 },
+setLocationForEdit :function(locationName) {
+  this.state.locationData.push(Location.getLocationByName(locationName.toUpperCase()));
+  this.setState({locationData :  this.state.locationData});
+  this.state.countryCode = this.state.locationData[0].country_PHONE_CODE;
+  this.setState({countryCode : this.state.countryCode});
 
+},
+setLocation : function (event) {
+ try {
+  this.state.locationData = [];
+  console.log('[set location ] Location event value : '+event.target.value.toUpperCase());
+ 
+  if(event.target.value.toUpperCase() === "SELECT LOCATION"){
+ 
+      this.state.errors.location_name = "Select office Location "
+ 
+   this.setState({errors : this.state.errors});
+ }else{
+   this.state.locationData.push(Location.getLocationByName(event.target.value.toUpperCase()));
+   this.state.employee.location_name = event.target.value.toUpperCase();
+   this.state.errors.location_name="";
+   this.setState({errors : this.state.errors});
+    this.state.employee.email_address = this.state.employee.first_Name.toLowerCase()+"."+this.state.employee.last_Name.toLowerCase()+"@"+this.state.locationData[0].mail_DOMAIN
+   this.setState({employee : this.state.employee});
+   console.log('[ setLocation ]this.state.employee.location_name    '+this.state.employee.location_name);
+  
+  console.log('[ setLocation ]Location Data : '+JSON.stringify(this.state.locationData));
+  this.state.countryCode = this.state.locationData[0].country_PHONE_CODE;
+  this.setState({countryCode : this.state.countryCode});
+  this.isFormValid();
+ }
+
+      
+   
+  
+ }catch(err){
+  console.log('[Error IN setLocation ]');
+
+ }
+},
 
     setEmployeeState: function(event) {
         var field = event.target.name;
         var value = event.target.value;
-        console.log('Location name : '+this.state.employee.location_name);
-        console.log('Name : '+field);
-        console.log('Value : '+value);
+       
         this.state.employee[field] = value;
-        return this.setState({ employee: this.state.employee });
+         this.setState({ employee: this.state.employee });
+        console.log('[setEmployeeState]this.state.locationData.location_NAME   '+this.state.locationData[0].location_NAME);
+
+        console.log('[setEmployeeState]this.state.employee.location_name    '+this.state.employee.location_name);
+        if(this.state.locationData[0].location_NAME === this.state.employee.location_name){
+          
+          if( field === "first_Name" || field === "last_Name" ){
+                console.log('[setEmployeeState]this.state.employee.first_Name    '+this.state.employee.first_Name);
+                console.log('[setEmployeeState]this.state.employee.last_Name    '+this.state.employee.last_Name);
+             this.state.employee.email_address = this.state.employee.first_Name.toLowerCase()+"."+this.state.employee.last_Name.toLowerCase()+"@"+this.state.locationData[0].mail_DOMAIN
+          }
+          
+        }
+       
+      this.isFormValid();
+
+       return this.state.employee;
     },
 
     isFormValid: function() {
         var formError = true;
         this.state.errors ={};
-        if(this.state.employee.first_Name.length <= 0){
+
+    
+
+
+if(this.state.employee.location_name !== ""  || this.state.employee.location_name !== "SELECT LOCATION"){
+
+        if(Validate.checkForEmpty(this.state.employee.first_Name )){
             this.state.errors.first_Name ="First name is required";
-            formError =false;
+           return false;
         }
-        if(this.state.employee.last_Name.length <= 0){
+        if(Validate.checkForEmpty(this.state.employee.last_Name)){
             this.state.errors.last_Name ="Last name is required";
-            formError =false;
+             return false;
         }
-        if(this.state.employee.email_address.length <= 0){
-            this.state.errors.email_address ="Email Address is required";
-            formError =false;
-        }
-        if(this.state.employee.personal_Email.length <= 0){
+       
+        if(Validate.checkForEmpty(this.state.employee.personal_Email)){
             this.state.errors.personal_Email ="Personal Email  is required";
             formError =false;
         }
-        if(this.state.employee.primary_phone_number.length <= 0){
-            this.state.errors.primary_phone_number ="primary_phone is required";
+        if(!Validate.email(this.state.employee.personal_Email)){
+            this.state.errors.personal_Email ="Please enter a valid email address";
             formError =false;
         }
+        if(!Validate.phoneNo(this.state.employee.primary_phone_number, this.state.locationData[0].phone_NUMBER_LENGTH,this.state.locationData[0].country_PHONE_CODE)){
+            this.state.errors.primary_phone_number ="Please Enter a valid Phone No ["+this.state.locationData[0].phone_NUMBER_LENGTH +" digits]";
+            formError =false;
+        }
+}else {
+   this.state.errors.location_name = "Select office Location "
+   formError =false;
+}
+
+        
+
+
         this.setState({errors: this.state.errors});
         return formError;
     },
@@ -274,7 +340,9 @@ componentWillMount: function() {
                         trello={this.state.trello}
                         wiki={this.state.wiki}
                         dropbox={this.state.dropbox}
-
+                        location= {this.setLocation}
+                        countryCode = {this.state.countryCode}
+                        display={  this.props.params.id == null  ? true : false}
                         updateSwitchStatus={this.updateSwitchStatus}
             />
         );

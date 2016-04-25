@@ -11,13 +11,22 @@ var _generateId = function(employee) {
 var _clone = function(item) {
     return JSON.parse(JSON.stringify(item));
 };
+var sort_by = function(field, reverse, primer){
+       var key = function (x) {return primer ? primer(x[field]) : x[field]};
 
-
+       return function (a,b) {
+        var A = key(a), B = key(b);
+        return ( (A < B) ? -1 : ((A > B) ? 1 : 0) ) * [-1,1][+!!reverse];                  
+       }
+    }
 var EmployeeApi = {
     getAllEmployees: function() {
       return _clone(employees);
 
     },
+sort : function  (employees,field, reverse, primer) {
+   return _clone(employees.sort(sort_by(field, reverse, primer)));
+},
 
     search :function(searchObject){
         var searchResult = SearchApiCall.search(searchObject);
@@ -864,17 +873,9 @@ var EmployeeApi = {
     },
 
     saveEmployee:function (employee) {
-        console.log('Employee : '+ JSON.stringify(employee));
         this.addEmpDetails(employee);
 
-        /*if (employee.user_Id) {
-          var existingEmployeeIndex= _.indexOf(employee,_.find(employees,{user_Id:employee.user_Id}));
-          employee.split(existingEmployeeIndex,1,employee);
-        } else {
-          employee.user_Id= _generateId(employee);
-          employees.push(employee);
-        }
-        return _clone(employee);*/
+        return this.getAllEmployees();
     },
 
     deleteEmployee:function (id) {

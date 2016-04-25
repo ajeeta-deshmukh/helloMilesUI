@@ -11,6 +11,12 @@ body {
     font-weight: bolder;
 }
 
+.whiteColor {
+    background: white;
+}
+.displayNone{
+    display: none;
+}
 .logo {
     background: url('../images/sprite.png');
     display: inline-block;
@@ -21,8 +27,30 @@ body {
     margin-top: -18px;
 }
 
+.viewEmployeeDetailspage h1 {
+    border-bottom: 1px solid #ADAAAA;
+    padding: 4px;
+    margin-top: 0
+}
+.phoneNoCss button{
+    padding: 6px 6px;
+    margin-top: 25px;
+}
+
 .Loginbox {
     padding: 20px
+}
+
+.Fright {
+    float: right;
+}
+
+.Fright a {
+    margin-left: 15px;
+}
+
+.buttonShift {
+    text-align: right;
 }
 
 .toast-success {
@@ -38,9 +66,37 @@ body {
     border-bottom: 1px solid rgba(189, 189, 189, 0.53);
 }
 
+.viewEmployeeDetailspage .panel {
+    border: none;
+}
+
+.viewEmployeeDetailspage table td:nth-child(3n-2) {
+    color: rgba(0, 0, 0, .5);
+}
+
+.viewEmployeeDetailspage .nav-tabs>li>a {
+    border-radius: 22px 22px 0 0;
+}
+
+.viewEmployeeDetailspage table td:nth-child(2n) {
+    font-size: 16px;
+}
+
 .required {
     color: red;
     display: inline-block;
+}
+
+#details .table>tbody>tr>td,
+.panel-body .table>tbody>tr>td {
+    border-top: none;
+}
+
+.textAlignRight {
+    text-align: right;
+    line-height: 60px;
+    font-size: 18px;
+    color: black;
 }
 
 .container-fluid {
@@ -76,7 +132,7 @@ body {
 .optionBar {
     height: 50px;
     padding: 5px;
-    display: block;
+   
     background: rgba(216, 216, 216, 0.74);
 }
 
@@ -213,14 +269,27 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     line-height: 20px;
     font-weight: 600;
 }
-
+input:first-letter {
+ text-transform:uppercase;
+}
 .empOption a {
     font-size: 16px;
     padding: 0px 3px;
     line-height: 20px;
     margin-left: 2px;
 }
-
+.empListOption  {
+   position: absolute;
+    z-index: 1;
+    right: 23px;
+    top: 7px;
+}
+.empListOption  a {
+    font-size: 16px;
+    padding: 0px 3px;
+    line-height: 20px;
+    margin-left: 2px;
+}
 .socialIcon i {
     font-size: 20px;
     line-height: 40px;
@@ -242,18 +311,19 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
     text-align: center;
 }
 
-
+.inputButtonPadding{
+        padding: 6px;
+}
 /*switches    */
 
 .switch {
     position: relative;
     display: inline-block;
     vertical-align: top;
-    width: 130px;
+    width: 141px;
     height: 30px;
     padding: 3px;
-    margin: 6px 10px 6px 35px;
-    ;
+    margin: 6px 10px 6px 22px;
     background: linear-gradient(to bottom, #dddddd, #FFFFFF 25px);
     background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
     border-radius: 18px;
@@ -346,7 +416,7 @@ a.btn-primary.fa.fa-plus.materialDesign:hover b {
 }
 
 .switch-input:checked ~ .switch-handle {
-    left: 97px;
+    left: 108px;
     box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -531,7 +601,6 @@ ul.listBox {
 
 h2 {
     color: #555;
-    text-align: center;
 }
 
 .vertical_menu ul {
@@ -656,4 +725,48 @@ h2 {
 
 .searchOptions input[type="radio"] {
     visibility: hidden;
+}
+
+.ReactModalPortal {
+    max-height: 600px;
+}
+
+.ReactModalPortal h2.modalHeading {
+    margin: 0px -16px 10px -16px;
+    text-align: center;
+    background: red;
+    color: white!important;
+    padding: 16px;
+    text-shadow: 1px 1px 3px black;
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    background-color: rgba(49, 49, 49, 0.85) !important;
+}
+
+.Modalcontent h2 {
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid #DEDCDC;
+}
+
+.Modalcontent h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.Modalcontent {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.modalCloseButton{
+    float: right;
+}
+
+
+@media (min-width: 768px) {
+  
+
+
 }

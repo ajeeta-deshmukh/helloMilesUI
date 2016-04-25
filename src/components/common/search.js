@@ -8,10 +8,11 @@ var Search = React.createClass({
 		return (
 				<div>
 					<div className="input-group searchOptions">
+					        
+					        <input type="search" className="form-control" id="searchBy" onChange={this.props.onChange} placeholder={"searchBy : "+this.props.currentSearchCategory} title="search" name={this.props.currentSearchCategory}/>
 					        <div className="input-group-btn">
 					            <button type="button" className="btn btn-default" onClick={this.props.status} >{this.props.statusValue === "Active" ?"Inactive": "Active"}</button>
 					        </div>
-					        <input type="search" className="form-control" onChange={this.props.onChange} placeholder={"searchBy : "+this.props.currentSearchCategory} title="search" name={this.props.currentSearchCategory}/>
 					        <div className="input-group-btn">
 					           
 					            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

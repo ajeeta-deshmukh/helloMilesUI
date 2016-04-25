@@ -7,33 +7,33 @@ var Link =Router.Link;
 var Header = React.createClass({
 	render:function () {
 		return (
-			<div>
+			
 			<div className="navigation">
-			<div className="container">
-               <nav className="navbar navbar-default" role="navigation">
-					<div className="container-fluid">
-						
-						<div className="navbar-header">
+				<div className="container">
+	               <nav className="navbar navbar-default" role="navigation">
+						<div className="container-fluid">
 							
-							<a className="navbar-brand" href="#"><div className="logos">Hello Miles</div></a>
-						</div>
+							<div className="navbar-header">
+								
+								<a className="navbar-brand" href="#"><div className="logos">Hello Miles</div></a>
+							</div>
 
-						
-						<div className="collapse navbar-collapse navbar-ex1-collapse">
-							<ul className="nav navbar-nav navbar-right">
-								
-								
-							</ul>
 							
+							<div className="collapse navbar-collapse navbar-ex1-collapse">
+								<ul className="nav navbar-nav navbar-right">
+									
+									
+								</ul>
+								
+							</div>
 						</div>
-					</div>
-				</nav>
-				<Menu />
-			</div>
+					</nav>
+					<Menu />
+				</div>
 			</div>
 			
 
-			</div>
+	
 			);
 	}
 });
