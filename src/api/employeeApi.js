@@ -42,30 +42,23 @@ sort : function  (employees,field, reverse, primer) {
     updateAndFormatPhone: function(employee){
     console.log("this is updateAndFormatPhone");
     },
-
-    getFeatureSetForUser : function (employee){
-            //API call to get featureSet data
-            featureState = {
-                socialcast : false,
-                slack : false,
-                trello : false,
-                gitHub : false,
-                dropBox : false,
-                wiki : false
-            };  
-            $.ajax({
-                url: '../getUserFeatureById/userId/'+ employee.userId,
+   /* getFeatureSetForUser : function (userId){
+         var featureState = {
+            socialcast : false,
+            slack : false,
+            trello : false,
+            gitHub : false,
+            dropBox : false,
+            wiki : false
+          };
+          $.ajax({
+                url: 'http://localhost:8080/hellomiles/getUserFeatureById/userId/'+ userId,
                 method :'GET',
                 async: false,
                 success: function(data) {
                     if(data.length > 0){
-                    angular.forEach(data,function(item){
+                    $.each(data, function(key,item){
                       switch(item.feature_Name.toLowerCase()){
-                          case 'salesforce' : {
-                            if(item.status == "A")
-                              featureState.salesForce = true;
-                            break;
-                          }
                           case 'socialcast' : {
                             if(item.status == "A")
                               featureState.socialcast = true;
@@ -99,20 +92,59 @@ sort : function  (employees,field, reverse, primer) {
                           }
                       }
                     });
-                  }
-                  featureSet.salesForce = featureState.salesForce;
-                  featureSet.socialcast = featureState.socialcast;
-                  featureSet.slack = featureState.slack;
-                  featureSet.gitHub = featureState.gitHub;
-                  featureSet.wiki = featureState.wiki;
-                  featureSet.trello = featureState.trello;
-                  featureSet.dropBox = featureState.dropBox;    
+                  }  
                 }
             });
+          return  featureState;     
+    },
+    setFeatureSetForUser : function (employee){
+       var featureSet = {
+            socialcast : false,
+            slack : false,
+            trello : false,
+            gitHub : false,
+            dropBox : false,
+            wiki : false
+          };
 
-     
-          },
-    
+          $.each(employee.userfeature, function(key,value){
+            var item = employee.userfeature[key];
+               switch(item.feature_Name.toLowerCase()){
+                          case 'socialcast' : {
+                            if(item.status == "A")
+                              featureSet.socialcast = true;
+                            break;
+                          }
+                          case 'slack' : {
+                            if(item.status == "A")
+                              featureSet.slack = true;
+                            break;
+                          }
+                          case 'trello' :  {
+                            if(item.status == "A")
+                              featureSet.trello = true;
+                            break;
+                          }
+                          case 'github' : {
+                            if(item.status == "A")
+                              featureSet.gitHub = true;
+                            break;
+
+                          }
+                          case 'dropbox' : {
+                            if(item.status == "A")
+                              featureSet.dropBox = true;
+                            break;
+                          }
+                          case 'wiki' : {
+                            if(item.status == "A")
+                              featureSet.wiki = true;
+                            break;
+                          }
+                      }
+          });
+          return featureSet;
+    },*/
     addEmpDetails : function (employee) {
           //alert("agastya.."+JSON.stringify(employee));
           //console.log("agastya.."+JSON.stringify(employee));
@@ -909,7 +941,7 @@ sort : function  (employees,field, reverse, primer) {
 
               //Gets featureset based on Id
                 function getFeatureSetForUser(userId){
-                  featureState = {
+                  var featureState = {
                             socialcast : false,
                             slack : false,
                             trello : false,
@@ -963,7 +995,9 @@ sort : function  (employees,field, reverse, primer) {
                   });
                 return  featureState;
                 }
-                
+
+            var featureState={};
+            var messageStr = "";   
             featureState = getFeatureSetForUser(userId);
 
               $.each(featureSet, function(key,value){
@@ -1454,8 +1488,8 @@ sort : function  (employees,field, reverse, primer) {
                                     }
                                }
                             });
-            if($scope.featureWatch.socialcast && $scope.featureWatch.slack && $scope.featureWatch.trello &&
-              $scope.featureWatch.gitHub && $scope.featureWatch.dropBox && $scope.featureWatch.wiki){
+            if(featureWatch.socialcast && featureWatch.slack && featureWatch.trello && featureWatch.gitHub
+              && featureWatch.dropBox && featureWatch.wiki){
 
               featureWatch = {
                       socialcast : false,
@@ -1465,7 +1499,6 @@ sort : function  (employees,field, reverse, primer) {
                       dropBox : false,
                       wiki : false
                     };
-                    var messageStr = "";
                     $.each(message, function(key,value){
                       messageStr += (value != "" ? value + "<br>" : "");
                     });
@@ -1475,38 +1508,55 @@ sort : function  (employees,field, reverse, primer) {
                         method :'POST',
                         success: function(data) {
                           //markProgressElementSuccess("Google");
-                messageStr+="<br>"+data;
-                if (messageStr.toLowerCase().indexOf("error")===-1){
-                  Toastr.success("Employee Details added successfully. Services activatation summary : " + "\n" + messageStr);
-                  //hideProgressScreen($location,1);
-                }else{
-                  Toastr.error("Services activatation summary : " + "\n" + messageStr);
-                  //hideProgressScreen($location,0);
-                }
+                          messageStr+="<br>"+data;
+                          if (messageStr.toLowerCase().indexOf("error")===-1){
+                            Toastr.success("Employee Details added successfully. Services activatation summary : " + "\n" + messageStr);
+                            //hideProgressScreen($location,1);
+                          }else{
+                            Toastr.error("Services activatation summary : " + "\n" + messageStr);
+                            //hideProgressScreen($location,0);
+                          }
                         },
                         error: function(err){
-                           if(err==""){
-                  err="Google Error- Could not Disable Account";
-                 }
-                 messageStr+="<br>"+err;
-                 Toastr.error(messageStr);
-                 //markProgressElementError("Google");
-                 //hideProgressScreen($location,0);
+                          if(err==""){
+                            err="Google Error- Could not Disable Account";
+                          }
+                          messageStr+="<br>"+err;
+                          Toastr.error(messageStr);
+                           //markProgressElementError("Google");
+                           //hideProgressScreen($location,0);
                         }
                     });
 
 
 
             }
-          return this.getAllEmployees();
+         return;
 
     },
 
-    deleteEmployee:function (id) {
-      console.log('Mock for Athor Save into db via Ajax Call');
-      _remove(employees,{user_Id:id});
-    }
+    deleteEmployee:function (userId) {
+      //console.log('Mock for Delete Employee via Ajax API Call : '+userId);
+      var baseurl = "http://localhost:8080/hellomiles/";
+    var url = baseurl + "deleteAccount/userid/" + userId;
+    //addProgressElementToParent(featurePopupContainerEle,"GOOGLE");
+    //showLoadAnimation(1);
+      $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function(data) {
+            Toastr.success("Employee Deleted Successfully From Google : " + "\n" + data);
+            //markProgressElementSuccess("Google");
+        //hideProgressScreen($location,1);
+        },
+        error: function(err){
+          Toastr.error(err);
+          //markProgressElementError("Google");
+        //hideProgressScreen($location,0);
+        }
+      });
 
-};
+  }
+}
 
 module.exports= EmployeeApi;

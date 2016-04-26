@@ -36,10 +36,15 @@ getInitialState : function () {
     componentWillMount : function () {
           this.setState({employee: employeeApiCall.getEmployeeById(this.props.params.id)});
     },
-     handleClick :function (event){
-      console.log('employee : '+event.target.value);
-      employeeApiCall.deactivateEmployee(event.target.value);
+     handleDeactivate :function (event){
+      employeeApiCall.deactivateEmployee(this.state.employee);
 
+      this.transitionTo('employee');
+
+     },
+     handleDelete : function(event){
+      employeeApiCall.deleteEmployee(event.target.value);
+      this.transitionTo('employee');
      }, 
      openModal: function() {
 
@@ -79,7 +84,7 @@ getInitialState : function () {
                                             <div className="col-sm-12 well">
                                                    Are you sure you want to  {this.state.employee.date_Of_Leaving != null ? "delete " : "deactivate "} {this.state.employee.first_Name} Account.
                                                    <div className="col-sm-offset-4 col-sm-8">
-                                                   {this.state.employee.date_Of_Leaving != null ? <button className="btn btn-danger" value={this.state.employee.user_Id} onClick={this.handleClick}>Delete</button> : <button className="btn btn-danger" value={this.state.employee} onClick={this.handleClick}>Deactivate</button>}
+                                                   {this.state.employee.date_Of_Leaving != null ? <button className="btn btn-danger" value={this.state.employee.user_Id} onClick={this.handleDelete}>Delete</button> : <button className="btn btn-danger" value={this.state.employee} onClick={this.handleDeactivate}>Deactivate</button>}
                                                        
                                                        <button className="btn btn-primary" onClick={this.closeModal}>Cancel</button>
                                                   </div> 
